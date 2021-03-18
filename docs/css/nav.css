@@ -1,0 +1,29 @@
+/* Based on post by W3Schools */
+/* Top navigation bar */
+.topnav {
+  background-color: #DAF7A6;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+
+/* Links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: #283747;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Links on hover */
+.topnav a:hover {
+  background-color: #283747;
+  color: #DAF7A6;
+}
+
+/* Active/current link */
+.topnav a.active {
+  background-color: #FF5733;
+  color: #283747;
+}
