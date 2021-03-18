@@ -8,6 +8,7 @@
 
 /* Links inside the navigation bar */
 .topnav a {
+  font-family: "Georgia", serif;
   float: left;
   color: #283747;
   text-align: center;
@@ -20,10 +21,12 @@
 .topnav a:hover {
   background-color: #283747;
   color: #DAF7A6;
+  font-family: "Georgia", serif;
 }
 
 /* Active/current link */
 .topnav a.active {
   background-color: #FF5733;
   color: #283747;
+  font-family: "Georgia", serif;
 }
