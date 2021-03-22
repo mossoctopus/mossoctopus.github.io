@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/nav.css">
+
+<body style="background-color:#282847;">
+
+<h1 class="h1"> <img src="../img/mossoctopus-pixil.png" width="57" height="44"/> The Mossoctoblog </h1>
+
+<div class="topnav" class="s1">
+  <a class="active" class="s1" href="../index.html">Home</a>
+  <a class="h1" href="posts.html">Posts</a>
+  <a class="h1" href="../about/about.html">About</a>
+</div> 
+
+<div>
+	<h3 class="h3">Thoughts on definitions related to symmetric key cryptography </h3>
+
+	<p class="p"> Hello all, and welcome to my first post! They say that first impressions matter, so I wanted to introduce this blog talking about a topic which is an important building block to understanding more about a subject that I love,
+	cyber security, whilst giving you a glimpse on how my mind works, and how I like to go about learning about different topics related to any subject.</p>
+	
+	<p class="p"> So, I want to start this by saying that I value 'understanding/comprehending' something more than I value 'just knowing' something.
+	Here, I refer to the term 'to know' as to have a fact in mind and be able to utilize it to derive other facts or to obtain further knowledge, which, by the way,
+	is not at all a bad thing. However, I feel that knowledge by itself fades and can be easily forgotten, and it is the understanding of a group of facts and how they
+	relate that will allow retention of knowledge and better use of it. In simple words, what I want to say is: don't memorize the formula and know all of the situations that
+	you are able to apply it too. Understand the concepts behind what builds up the formula, and then, even if you do forget what the formula is, or when you are supposed
+	to use it, your understanding of the basic concepts can quickly help you find your way back to a piece of knowledge you may have forgotten. That is my point of view, anyway. I'm not here to preach or tell you that your method of learning is wrong. However, bear with me, because all of this monolog has a point.
+	</p>
+	<p class="p">
+	So after this loooong introduction, let's get to the technical stuff and how that relates to what I've said until now. Sooo, symmetrical cryptography and symmetrical keys.
+	Every website or book that I read defines symmetric cryptography or symmetric encryption using the same idea: it's the type of encryption in which <b>the same key</b>
+	is used to both encrypt the original message and decrypt the cipher that was obtained after the encryption operation took place. Simply put, I disagree with that definition.
+	Once again, I feel like I must remind the reader that I am not here to tell you what's right and wrong in the world of cyber security definitions, nor am I here to 
+	pick a fight with renowned authors in the field. So don't come at me. Do what your heart tells you to do. But, if you are interested in reading more about why
+	I disagree with this definition and what is the definition <b>my heart</b> tells me to believe in, do stick around. 
+	</p>
+	<p class="p">
+	I disagree with the 'same keys' definition for symmetric cryptography first and foremost because I had a pretty crazy but pretty good teacher in college who taught me 
+	to think this way, but also because, after I <b>understood</b> cryptography and the reason behind his nagging (he told us he would ask us the definition
+	for symmetric key cryptography in our exams and if we gave the 'same key' answer we would get a fat round 0 for a grade), I started to interpret this definition as
+	the easy way out to understanding how cryptography works in general. So...am I being kind of patronizing? Maybe. I apologize in advance. But I feel that this
+	definition is the equivalent to stating that 'this is a fruit, because all fruits are red', because you have never seen an orange fruit, or a fruit with any other
+	color, for that matter. If you live in a world where all fruits are red, sure, this definition works, but the question here is: are you actually trying to
+	understand what a fruit is, how it actually biologically is formed, or are you just considering a superficial fact that seems to be common among all fruit
+	as a base to understand all other concepts that involve fruits in general? When you move to a planet where all fruits are yellow, all you worked so hard to learn up to that point crumbles. What we should be
+	trying to understand is: <b>if</b> all fruits are red, why is that so? What property allows this to happen? Is this the only thing they have in common? You know...SCIENCE! 
+	</p>
+	<p class="p">
+	Ok, so, before we consider the definition I like best to describe symmetric encryption, let us go back to basics and 'verify' the 'same key' definition for the simplest
+	symmetric encryption algorithm I can think of, which is the Caesar cipher. So, I imagine that if you are reading this you have basic cyber security knowledge,
+	or at least it's a subject that interests you enough for you to know a little bit about it. Right? HOWEVER, just in case you don't remember, let me refresh you memory on how the Caesar cipher works.
+	So, let's assume you have a message <span class="span-code">m</span> that you want to share with a friend, but this friend is the only one allowed to read it.
+	You want to keep the message <b>confidential</b> between the two of you (just flexing and throwing out there an important cyber security concept). To be able
+	to do that with symmetric encryption, you and your friend must agree on the secret <span class="span-code">k</span> that will be used to encrypt the message you
+ 	are sharing, so that your friend will be able to decrypt the cipher text <span class="span-code">c</span>, once she gets it. Your friend also needs to know the algorithm that you used to encrypt
+	your message, because she will use the same algorithm to decrypt it, and, just to be clear, by algorithm I mean the set of ordered operations you used to transform
+	<span class="span-code">m</span> into <span class="span-code">c</span>. For the Caesar cipher, this algorithm is simple. Your key is a letter on the alphabet.
+	To obtain a cipher text from the message, you will rotate each letter in said message a number of positions equal to the position the key itself belongs to in
+	your alphabet. So, for ease of understanding this mess of a sentence I just wrote, let's consider an example, shall we? 
+	<p class="p">
+	Our message <span class="span-code">m</span> is the word <span class="span-code">mossoctopus</span>, our key <span class="span-code">k</span> is the letter
+	<span class="span-code">d</span> and our alphabet is the regular english language alphabet (<span class="span-code">abcdefghijklmnopqrstuvwxyz</span>). So, first things first, we have to find out what is the position of our key in relation to the alphabet. The letter  <span class="span-code">d</span>
+	is the fourth letter in the alphabet, meaning that our key  <span class="span-code">k</span> in integer form is equal to the number  <span class="span-code">4</span> 
+	(notice that our choice of alphabet limits our amount of possible keys to 26, since we have 26 letters to choose from. So...pretty easy to crack the key using the old
+	brute force method, a.k.a, test all possibilities if you have the time and patience for it, which a computer will have). This means that, for each letter in 
+	<span class="span-code">m</span>, we must rotate them <span class="span-code">4</span> positions, or, in other words, add <span class="span-code">4</span> to the position they are currently in. 
+	Therefore, the first letter in the message, which is also <span class="span-code">m(13)</span>, becomes...  
+	<span class="span-code">m(13) + 1 = n(14)</span>, <span class="span-code">m + 2 = o</span>, <span class="span-code">m + 3 = p</span>, <span class="span-code"><b>m + 4 = q</b></span>.
+	Yay! One letter encryted, 10 to go. But this time, i'll do it without the step-by-step and just show the result below. 
+	</p>
+
+	<pre><code>
+m	o	s	s	o	c	t	o	p	u	s
+🠓	🠓	🠓	🠓	🠓	🠓	🠓	🠓	🠓	🠓	🠓
+q	s	w	w	s	g	x	s	t	y	w
+	</code></pre>
+
+	<p class="p">
+	So what we did up there was simple. To get our cipher text, we rotated the position of all letters in our message by four. And just to be 100% clear, we call it 
+	'rotate' and not just 'jump' or 'move to', because, if we had the letter <span class="span-code">z</span> in our message and we consider the same key, since <span class="span-code">z</span>
+	is the last letter in our alphabet, to encrypt it, we go back to the start, as if <span class="span-code">z</span> were the 26th item in a 26-number clock, and 
+	when we count 4 from the last item in the clock, we start the count from the beginning, going back to 4, which is <span class="span-code">d</span>. I'm going to include in this post an image of a Caesar cipher wheel (not sure if that
+	is the correct name, but I'll call it that for now), which will make this idea clearer (and by sheer luck , there is one that considers the same key we are using in this example).
+	<p>
+	
+	<img src="../img/post-1/caesar-cipher-wheel.png" class="img-right"> 
+	<p class="p">
+	The wheel represented in the image in the right is set to encrypt a message considering the key <span class="span-code">d=4</span>. The outer wheel
+	represents your clear text or, in other words, your message, while the inner wheel can be adjusted so that you can obtain the cipher text. So, when
+	you align the inner wheel's <span class="span-code">a</span>, to the outer wheel's <span class="span-code">a</span>, you have no encryption. By <b>rotating</b>  
+	the inner wheel 4 positions to the left, you are considering <span class="span-code">d</span>, the 4th letter on the alphabet as being your key, since
+	now, your first letter <span class="span-code">a</span> in the outer wheel will be aligned to <span class="span-code">e</span> in the
+	inner wheel and <span class="span-code">a + 4 = 5</span>, which is <span class="span-code">e</span>'s position in our alphanet. Simple enough, right? 
+	</p>
+
+	<p class="p">
+	Alright, so now, you send your friend a message containing the following text <span class="span-code">qswwsgxstyw</span> (for some reason, you really wanted
+	your friend to know about <span class="span-code">mossoctopus</span>, the author of this blog), which is an encrypted message. You friend already knows the
+	key you used to encrypt the message, and he/she knows you used the Caesar cipher to do it. Other people who you don't want reading the message,
+	may know that you guys are using this cipher specifically, but, <i>in theory</i>, since they don't have the key, they can't know what the real message is (I say
+	in theory, because if someone <i>really</i> wants to know the message, they'll try to find out what the key is or they'll try to extract the message from the cipher text in some way,
+	as all hackers do. The use of the expression is simply to point out that knowledge of the inner workings of a cryptographic algorithm by a third party
+	that is not authorized to read the clear text message should not be considered a problem if you have a well designed algorithm and a strong enough key to back it up. 
+	In other words, hiding what the algorithm is from people you don't want reading your message is an existing and used technique, but shouldn't be necessary if you
+	have a good algorithm and a good key. If your algorithm is well structured, knowledge of how it works will not make it any easier to obtain a clear text message from a cipher text,
+	the knowledge of what the key is being the only thing that will allow efficient decryption. So...if you're hiding your encryption algorithm, it makes me think that it's going to be pretty
+	easy to crack. You know...security by obscurity because you are afraid...kinda? But this maybe is a subject for another post. Having a strong algorithm 
+	is not the case for the Caesar cipher, I know, but this is just an example. A Caesar ciphered text can be easily cracked by statiscal analysis, and, in our example,
+	by the use of brute force techniques... so maybe you and your friend should hide the algorithm you are using from others. But let me already be the bearer of bad news and tell you it's pretty
+	easy to know if someone is using the Caesar cipher by analysing the cipher text. Moral of the story: don't use the Caesar cipher for important stuff. Only for
+	blog examples. Ok...back to the blog post after this ginormous parenthesis). Your friend receives a note with <span class="span-code">qswwsgxstyw</span> in it,
+	and all she does is rotate 4 to the right using a new wheel (where the inner and outer <span class="span-code">a</span>'s where aligned), 
+	positioning the inner wheel's <span class="span-code">a</span> below the key <span class="span-code">d</span> in the outer wheel. Why? Because
+	<span class="span-code">d</span>s in the cipher text were originally <span class="span-code">a</span>s, and, during decryption, the
+	outer wheel will represent the cipher text and the inner wheel will represent what that text was before encryption. Each letter in the cipher text
+	should be converted to the letter in the inner wheel which is at the same position of the letter in the outer wheel equal to the one being considered in the cipher text,
+	so that the original message can be obtained). 
+	If we consider a mathematical operation, instead of adding 4 to the position of each letter, she instead
+	decreases 4. Once again, we need to consider special cases, such as when we have the letter <span class="span-code">a</span> in our cipher text. How are we
+	going to decrease 4 from <span class="span-code">a</span>'s position, which is 1? Fear not, there is a solution: all we need to do is consider that to get to 1
+	we must have completed a lap in our clock during encryption, meaning that <span class="span-code">a - 1 = 26</span>, <span class="span-code">a - 2 = 25</span>, <span class="span-code">a - 3 = 24</span> and <span class="span-code">a - 4 = 23</span>. But wait a second...this looks familiar to me. This is the operation modulo in mathematics!!!! 
+	Wow, amazing. Keep that in mind because I am going to get into that in just a second. But for now, let's just celebrate the fact that your friend was able to
+	decrypt your secret message by using the same key you used to encrypt your message: <span class="span-code">d = 4</span>. Mission accomplished.
+
+	<p class="p">
+	Our example above shows us in a very basic way why symmetric encryption is considered the type of encryption where the same key is used to encrypt and decrypt
+	a message. If you don't know much about cyber security or have simply not studied this subject yet, you may be wondering 'Is it even possible to do this by using different keys?'.
+	That was certainly what <b>I</b> wondered when I first started studying this. Seems pretty impossible right? Using different keys to encode a message and then 
+	decode it? Counter intuitive to say the least, since all of the other things we study, seem to follow the symmetric pattern. Take equations for instance: if you
+	divide by 4, all you need to do to go back to the previous result is multiply by 4. Any other operation will yield an incorrect result. So, what a regular person
+	would tell you is: 'yes, it is possible, that's why assymetric key encryption exists! Just trust me, it works because the keys are different, but mathematically linked.' What <b>I</b> tell you instead is, yes, it is possible,
+	and it <b>can</b> happen in symmetric cryptography, and, shockingly, in the example I have just presented to you, should we look at it in a different light. 	
+	</p>
+
+ 
+	<p class="p">
+	So, to explain our 'different keys' situation in a symmetric encryption algorithm (blashphemy!), I first need to explain how the modulo operation works, for those
+	that might not know. I won't be too detailed, and maybe I can make a more descriptive blog post on this subject in the future, but for now, if you don't understand 
+	my explanation, I suggest looking for one someplace else in our vast Internet, because understanding it will be important to understand the rest of what I am
+	going to say regarding our encryption algorithm moving forward. 
+	</p>
+
+	<p class="p">
+	What is the modulo operation? In non-mathematical terms, the modulo operation is an operation that considers results that are in the range <span class="span-code">0 to i - 1</span>,
+	where <span class="span-code">i</span> is a positive integer of your choice. Let's choose a value for <span class="span-code">i</span>, say <span class="span-code">5</span>. This means that
+	<span class="span-code">x modulo 5</span>, where <span class="span-code">x</span> is an integer (yes, the second operand is always <span class="span-code">i</span>, and in our example <span class="span-code">i = 5</span>),
+	will have 1 of 5 possible results: <span class="span-code">0</span>, <span class="span-code">1</span>, <span class="span-code">2</span>, <span class="span-code">3</span> or <span class="span-code">4</span>.
+	Why, you ask? Because the result of the modulo operation will always be the remainder you obtain when dividing <span class="span-code">x</span> by <span class="span-code">5</span>.
+	So, from <span class="span-code">0</span> to <span class="span-code">4</span>, notice that our remainders are the numbers <span class="span-code">0</span>, <span class="span-code">1</span>, <span class="span-code">2</span>, <span class="span-code">3</span> and <span class="span-code">4</span>. When we reach the number <span class="span-code">5</span>, <span class="span-code">5 / 5 = 1</span> with a remainder
+	of <span class="span-code">0</span>, which means, <span class="span-code">5 modulo 5 = 0</span>. For <span class="span-code">6</span>, the result of our modulo operation will be <span class="span-code">1</span>, for <span class="span-code">7</span> this value will be <span class="span-code">2</span>, until we reach <span class="span-code">10</span>,
+	which is divisible by <span class="span-code">5</span>, and, therefore, we go back to our remainder of <span class="span-code">0</span>. This goes on forever.
+	If you get a remainder value bigger than or equal to <span class="span-code">5</span> in the modulo operation, it means you divided incorrectly. It's like considering a clock with 5 numbers, in which one of them is <span class="span-code">0</span>. 
+	This applies to any value you choose to give to <span class="span-code">i</span>, meaning, a clock with <span class="span-code">i</span> numbers, that range from <span class="span-code">0</span> to <span class="span-code">i - 1</span>. 
+	</p>
+
+
+	<p class="p">
+	Ok, now that we have that explanation out of the way, we can go back to our Caesar cipher algorithm and how to decrypt it using a different key than the one used to
+	encrypt it. When we are rotating our clear text message on the Caesar cipher we are performing a modulo operation in which <span class="span-code">i = 26</span>, since our alphabet has 26 letters.
+	Considering the wheel, we are able to position it 26 different ways, which range from 0 to 25 possible rotations that can be performed in the inner wheel, these
+	rotations represented by letters <span class="span-code">a</span> to <span class="span-code">z</span>, numbers <span class="span-code">1</span> to <span class="span-code">26</span>.
+	It is very important that I emphasize that key <span class="span-code">a = 1 rotation</span> is not our neutral key, also known as adding <span class="span-code">0</span> to the current position. 
+	Our neutral key/first key is <span class="span-code">z = 26</span> which is equal to <span class="span-code">0 modulo 26</span>. However, DO NOTE that the key being <span class="span-code">z</span> does <b>NOT</b> mean putting the inner wheel's <span class="span-code">z</span>
+        in the <span class="span-code">a</span> position for the outer wheel during encryption. It is only a simpler way to remember that you must rotate 26 times, 
+        because 26 is the position of the letter <span class="span-code">z</span> in the alphabet. By rotating the wheel 26 times, <span class="span-code">a</span>
+        in the inner wheel will be under <span class="span-code">a</span> in the outer wheel. The same happens when you rotate 0 times. The same happens when you perform the
+	operation <span class="span-code">a + 26 = 27</span> because <span class="span-code">27 modulo 26 = 1 = a</span> exactly because <span class="span-code">a + 26 = 27 = 1 = a + 0</span> <b>in the modulo world</b>. 
+	With this difference clarified, we can finally see that, that is why, when we apply our key <span class="span-code">d = 4</span> to the letter <span class="span-code">z</span>, we end up with <span class="span-code">d</span>.
+	Shall we do the math? <span class="span-code">z = 26 + 4 = 30</span> and <span class="span-code">30 modulo 26 = 4 = d</span>. Boom, mindblown. In written words, what is
+	happening here is: I am using the modulo operation because I don't want values over <span class="span-code">25</span> for my rotations (or, I don't want more than 26 possible 
+	values for my keys, as there are 26 numbers between 0 and 25 and between 1 and 26, remembering that in the modulo world, 1 to 26 is actually 0 to 25, as <span class="span-code">26 = 0</span>). 
+	Ergo, whenever we reach 26, go back to the beginning (of the alphabet), and start counting from <span class="span-code">0</span> all over again. Yay! Math is 
+	fun. It's even more fun when you come to the realization that you can go back to <span class="span-code">1</span>, <span class="span-code">2</span>, or whichever number
+	you like without <i>ever</i> needing to perform a subtraction. You can subtract by adding a large enough number, completing a loop and starting to count from 
+	<span class="span-code">0</span> all over again. Having that in mind, let's go back to your friend trying to decrypt your message. Let's consider he/she lives in an alternate universe where
+	substracting is a crime, and he/she can only sum numbers. This means, he/she cannot use your encryption key do decrypt the message you sent him/her! He/She can't subtract
+	<span class="span-code">4</span> because he/she will go do jail for life if he/she does so (harsh world...)! Well, is it all over? Will your message about this awesome author of this awesome blog never 
+	come across? No, because your friend knows the modulo operation (which is not forbidden in his/her very weird planet/alternate reality). So, let's get into the
+	mind of your friend: to get to the cipher text <span class="span-code">c</span>, you performed a sum of <span class="span-code">x</span> over the position each
+	letter in the original message has in the alphabet. This is a symmetric algorithm, which means, your friend <b>still needs to know the encryption key</b> to be
+	able to decrypt the message. Not because the key is the same for decryption, but because this new decryption key can be <b>easily calculated from the encryption key</b>.
+	In our example, very easily calculated. Our alphabet has 26 letters. We know the key is <span class="span-code">d = 4</span>. When the message is in it's original state,
+	not encrypted, it is as if we had encrypted it with the key of value <span class="span-code">0</span> (no rotations), which, in the modulo world, remember, will also equal to
+	<span class="span-code">26</span> (rotations. This means the key here is <span class="span-code">z</span> here since <span class="span-code">a = 1</span>
+	<b>rotations</b>), because <span class="span-code">26 modulo 26 = 0</span>. So...I want to get to position <span class="span-code">0</span> from
+	position <span class="span-code">4</span> without having to subtract <span class="span-code">4</span>. Solution: <span class="span-code">y + 4 = 0 = 26</span>. 
+	Who is <span class="span-code">y?</span>. Drumroll....you are incorrect if you answered anything but <span class="span-code">y = 22</span>. And now, all your friend
+	needs to do is sum the position of all letters in the cipher text to <span class="span-code">22</span> and voilá. He/She will reach the original message. Shall we
+	put it to the test? 
+	</p>
+
+	<pre><code>
+q = 17 + 22 = 39	39 modulo 26 = 13 = <b>m</b> 
+s = 19 + 22 = 41	41 modulo 26 = 15 = <b>o</b>
+w = 23 + 22 = 45	45 modulo 26 = 19 = <b>s</b>
+w = 23 + 22 = 45	45 modulo 26 = 19 = <b>s</b>
+s = 19 + 22 = 41	41 modulo 26 = 15 = <b>o</b>
+g = 07 + 22 = 29 	29 modulo 26 = 03 = <b>c</b>
+x = 24 + 22 = 46	46 modulo 26 = 20 = <b>t</b>
+s = 19 + 22 = 41	41 modulo 26 = 15 = <b>o</b>
+t = 20 + 22 = 42	42 modulo 26 = 16 = <b>p</b>
+y = 25 + 22 = 47 	47 modulo 26 = 21 = <b>u</b>
+w = 23 + 22 = 45	45 modulo 26 = 19 = <b>s</b>
+	</code></pre>
+
+	<p class="p">
+	Well, would you look at that...call me impressed. But not really, because I knew that was going to happen. But the point here is, we were able to decrypt the cipher text
+	by using the decryption key <span class="span-code">22</span> instead of <span class="span-code">4</span>, which was also the encryption key. Does it mean that
+	now we have broken all of the laws of computer sciene, physics and the universe, and this algorithm, that since the dawn of time is considered a basic example 
+	of what is a symmetric key encryption algorithm, is now assymetric because we use different keys? Sorry to disappoint you, but if you look outside your window, nothing will be different, 
+	and the universe is not collapsing due to this. I can also assure you this algorithm is still a symmetric encryption algorithm. What is incorrect in this whole
+	story is our definition that states that symmetric encryption algorithms use the same key to encrypt a clear text message and to decrypt the cipher text obtained from it.
+	If we change our definition, the universe can survive and you can live another day to maybe encrypt some more interesting messages to send to your friend (such as this blog post, *wink*wink*).
+	But, before we do that, let us wrap up our Caesar cipher tale: by using the modulo operation and knowing the encryption key and the size of the alphabet, we can
+	easily and quickly deduce what is the decryption key in order to avoid using a subtraction operation to obtain the original message from the cipher text.
+	All you need to do is subtract from the size of your alphabet the size of your key, in our example, <span class="span-code">26 - 4 = 22</span>. Ooops. I broke a rule.
+	Your friend lives in a planet where he/she can't subtract...so I have inevitably sent them to intergalactic jail anyways to figure out the key. Good thing this is only an example, right?
+	So, the whole 'you can't subtract thing' was only a way to show a situation where you might need to look for a different solution to your problem. If we bring this
+	whole scenario to the real world, I can't talk about a computer that can add but can't subtract (I don't think that exists), or a situation where subtracting 
+	costs more (time or money or even both) than adding, because it will not make sense. I mean...a subtraction is the addition of a negative number. The final question is, then, what is the advantage of using the second method to decrypt our Caesar cipher encrypted message?
+	I will show you why, with some Python code.  
+	</p>
+
+	<pre><code>
+# SOLUTION ONE: USING THE SAME KEY AND SUBTRACTION
+
+def decrypt(text, key):
+	result = ""
+	for i in range(len(text)):						# for each character in the cipher text...
+		char = text[i]
+		alphabet_position = ord(char) - 96 				# lower case a is equal to 97. Converting the lowercase letter to alphabet position
+		decrypted_char = (alphabet_position - key)
+		if decrypted_char < 1:						# in we come across a negative value due to a complete rotation during encryption
+			decrypted_char = decrypted_char + 26			# e.g., 'a' as cipher text when key=d=4. Decryption should result in 23=w, not -3.
+		decrypted_char += 96						# converting back to ASCII char value
+		result+= chr(decrypted_char)					# creating plain text string for each decrypted char
+	return result
+
+
+txt = input("Cipher text: ")
+k = int(input("Key (as an integer from 1 to 26): "))
+print (decrypt(txt,k))
+# This code is not the best code out there, not considering all possible user input and not being the most efficient it could be. It is used here, however to present
+to the reader a quick example of what a decryption program for the Ceasar cipher, though very rough around the edges, could look like. 
+	</code></pre>
+
+	<pre><code>
+# SOLUTION 2: USING DIFFERENT KEYS AND THE MODULO OPERATION
+
+def decrypt(text, key):
+        result = ""
+        decrypt_key = 26 - key;
+        for i in range(len(text)):                                              # for each character in the cipher text...
+                char = text[i]
+                alphabet_position = ord(char) - 96                              # lower case a is equal to 97. Converting the lowercase letter to alphabet position
+                decrypted_char = (alphabet_position + decrypt_key) % 26         # % is the modulo operation in Python
+                decrypted_char += 96                                            # converting back to ASCII char value
+                result+= chr(decrypted_char)                                    # creating plain text string for each decrypted char
+        return result
+
+
+txt = input(&quotCipher text: &quot)
+k = int(input(&quotKey (as an integer from 1 to 26): &quot))
+print (decrypt(txt,k))
+# This code is not the best code out there, not considering all possible user input and not being the most efficient it could be. It is used here, however to present
+to the reader a quick example of what a decryption program for the Ceasar cipher, albeit very rough around the edges, could look like. 
+	</code></pre>
+
+
+	<p class="p">
+	Yes, I know. Not too much of a difference. The first code has a single additional line, and processing time will not be all that different. But remember, dearest reader,
+	we are considering a simple algorithm and a simple example. Imagine a complex symmetric encryption algorithm where you spend hours processing data and spend 
+	thousands due to energy consumption because your code has more jumps or loops than it should ever require to work properly...just because you <b>need</b> 
+	your encryption and decryption keys to be the same. Seems like a waste of mathematics and all of its power to me. So, yes, you can say that for the Caesar 
+	cipher the keys are the same, and that I am in a useless quest to prove something that does not need to be proven, discussing what needs not to be discussed
+	exactly because all symmetric encryption algorithms that exist to date (take this with a grain of salt, I certainly do not know how all symmetric encryption algorithms work 
+	to be sure that this applies to all of them, but I do know it applies to a big part of the algorithms known and used today) use the same keys for encryption
+	and decryption. And all I can say is...agree to disagree. Because if you are reading this post in its entirety, you will remember my example of the red-fruits-only world. 
+	What if one day, some amazing cientist discovers a yellow fruit in this ficticious planet? If people in the planet are stubborn and decide
+	to stick to their definition that fruits must be red, I can see them loosing on a lot. Misunderstanding a lot. I mean, the best fruit smoothie could be yellow fruit
+	smoothie, but they'll never know, because they only try recipes that treat it as something else. When we talk about encryption algorithms, consequences can be and will be
+	a lot worse than just missing out on a drink. I mentioned this is a previous paragraph: if someone creates an encryption algorithm that uses different keys, 
+	does it automatically make the algorithm assymetric? That is what the current definition tells me. Using this as a reference, I apply this supposedly assymetric
+	algorithm to allow people to send me encrypted data that only I can decrypt with my private and secret decryption key (because, for those that do not know, that
+	is how assymetric encryption works: there is a public key, that can be known by all and is used for encryption only, and there is a private key, that must be kept secret
+	and is used for decryption only), such as their login information when they want to connect to their accounts in the social media platform I control. A hacker
+	decided to snoop, steals some cipher texts and after taking a look at the algorithm, he realizes even though the keys are different, the algorithm is symmetric. He quickly and easily discovers the decryption key from the publicly provided encryption key and gets illegitimate access to various accounts. You can say
+	the problem here is the hacker...but this is basically all your fault, because you decided to use a ridiculous algorithm like the Caesar cipher to encrypt your clients'
+	data just because 4 is different from 22. 
+	<p>
+
+	<p class="p">
+	That's why I am thankful for my college teacher for not giving us the simple definition...the easy way out to quickly learn (to just know) what symmetric cryptography is.
+	The definition that describes all currently known symmetric
+	encryption algorithms (or at least the ones I know and read about), but doesn't actually explain anything about them. The definition he gaves us was a definition that
+	took me a while to understand, and I had to research and try out examples and experience the decryption process for myself (as shown in the above example) to
+	finally grasp the true meaning behind it. But now, <b>I understand it</b>, and I understand a lot of the things that relate to this subject. So, without further ado, I give you this definition:
+	&quotA symmetric encryption algorithm is an algorithm where not much work/effort is needed to obtain a decryption key from an encryption key. Through simple
+	operations you can quickly obtain one should you have the other (where sometimes 'quick' may not be quick for a human being, but it is for an efficient computer)&quot. 
+	The same cannot be said for assymetrical encryption algorithms, where it is very hard and sometimes unfeasible in our current lifetime with our current technology, even for extremely fast 
+	and efficient computers (including the insane ones we see in movies), to derive a decryption key from the public encryption key. That is why the latter can be made, as the name states, public. Brute force
+	is not a viable option, neither is trying to figure out the decryption key through some type of statistical or any type of scientific analysis. What makes this definition and this understanding I have of symmetric encryption 
+	algorithms all the more interesting to me, is the fact that it shows how easily the whole base for cryptography used in current systems can very quickly come crumbling down. That is because, the
+	day someone discovers a mathematical formula/algorithm that allows us to easily factor a very large non-prime number, for example, 
+	a very well established assymetric encryption algorithm becomes symmetrical just like that. And then all the public keys we have out there become available to
+	many that will definitely and now feasibly figure out the private and secret key associated with it. One understanding that leads to another and that shows
+	me that trust in a strong assymetrical encryption algorithm can never be complete. I also of course know that finding an easy way to factor numbers composed
+	of huge prime numbers is no easy task. It is very very hard actually. However, the key idea here is: improbable, not impossible. Which is my approach to cyber
+	security in general: never assume that you have enough to protect your network...there is always someone out there willing to try to make the improbable happen. 
+	</p>
+
+	<p class="p">
+	Finally, we have reached the end of the post and I hope you enjoyed reading this. The moment I saw how important this definition given to me from my
+	professor in college was, was the moment I started to question a lot of the information I was given and when I started to dig deeper to try to truly understand
+	something that I want to learn more about. I encourage you to always do the same and seek beyond the basic definition, obtaining knowledge and understanding
+	with the help of others (studies made
+	after a lot of hard work), but adding to this information, these results and this knowledge, the understanding you yourself were able obtain after making your own studies
+	and exploring science! With that said, you can choose to agree with what I have written in this blog post
+	or you can choose to disagree with it and reject my definition, considering the more widely accepted definition 
+	or finding a definition you think is more appropriate to describe what a symmetric encryption
+	algorithm is, of course, always considering the science and the logic behind it!
+	</p>
+</div>
+
+<footer class="footer">
+  <p><b>mossoctopus@https://github.com/mossoctopus</b></p>
+</footer> 
+
+
+</body>
+
+
+</html> 
