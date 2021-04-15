@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/nav.css">
+
+<body style="background-color:#282847;">
+
+<h1 class="h1"> <img src="../img/mossoctopus-pixil.png" width="57" height="44"/> The Mossoctoblog </h1>
+
+<div class="topnav" class="s1">
+  <a class="h1" href="../index.html">Home</a>
+  <a class="active" class="s1" href="posts.html">Posts</a>
+  <a class="h1" href="../about/about.html">About</a>
+</div> 
+
+<div>
+	<h3 class="h3">Insert title here</h3>
+
+	<p class="p">This is a paragraph</p>
+	
+	<pre><code>
+This is a code snippet
+	</code></pre>
+
+	
+	<img src="" class="img-right"> 
+</div>
+
+<footer class="footer">
+  <p><b>mossoctopus@https://github.com/mossoctopus</b></p>
+</footer> 
+
+
+</body>
+
+
+</html> 
